@@ -1,57 +1,58 @@
-// const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const path = require("path");
-// const fs = require("fs");
+const path = require("path");
+const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./lib/htmlRenderer");
-// const Employee = require("./lib/Employee");
+const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
 
-const questions = [
-                    { type: "input", message: "What is the employee name", name: "name" },
-                    { 
-                    type: "list",
-                    name: "role",
-                    message: "What is the employee's title or role with the firm?",
-                    choices: ["Manager", "Engineer", "Intern"],
-                    },
-                    {
-                    type: "input",
-                    message: "What is the employee's id number?",
-                    name: "id",
-                    },
-                    {
-                    type: "input",
-                    message: "What is the employee's e-mail address?",
-                    name: "email",
-                    }   
-];
+const team=[]
 
-function init() {
-  inquirer
-  .prompt(questions)
-  .then(function (data) {
-    console.log(data);
-    //     switch (data.role) {
-    //         case "Manager":
-    //             let teamMember=Manager(data);
-    //             break;
-
-    //         case "Engineer":
-    //             let teamMember=Engineer(data);
-    //             break;
-
-    //         case "Intern":
-    //             let teamMember=Intern(data);
-    //             break;
-    //     }
-  });
-  init();
+function ask () {
+    inquirer
+        .prompt([{
+            type: "input",
+            message: "Would like to add a team member?(yes/no)",
+            name: "add"
+       }]).then(answer => {
+         if(answer.add="yes") {
+            addMember();
+         }
+         else {render(team)};
+       })
 }
+
+function addMember() {
+
+}
+
+function addManager{
+    const questions = [{type: "input",
+                        message: "What is the manager's name?",
+                        name: "name"
+                    },
+                    {type: "input",
+                    message: "What is the manager's e-mail address?",
+                    name: "email"
+                   },
+                   {type: "input",
+                    message: "What is the manager's id?",
+                    name: "id"
+                   }
+];
+    inquirer
+        .prompt(questions)
+        .then(answers=>{
+            const teamMgr=
+        })
+}
+
+addManager();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
