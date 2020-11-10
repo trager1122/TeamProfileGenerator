@@ -16,15 +16,15 @@ const team=[];
 function ask () {
     inquirer
         .prompt({
-            type: "input",
-            message: "Would like to add a team member?(y/n)",
+            type: "confirm",
+            message: "Would like to add a team member?",
             name: "add"
         })
        .then(answer => {
-        if(answer.add='y') {
+        if(answer.add === true) {
             addMember();
         }
-        else {render(team)};
+        else {renderFile()};
        })
 }
 
@@ -39,43 +39,50 @@ function addMember() {
                          name: "name"
                         },
                         {type:"input",
+                         message:"What is the employee's id?",
+                         name:"id"
+                        },
+                        {type:"input",
                          message: "What is the employee's e-mail address?",
                          name:"email"
-                        }];
+                        }
+                    ];
+
     inquirer
         .prompt(empQuestions)
         .then(function(answers){
             switch (answers.role) {
                 case "Engineer":
-                    const addEngineer=new Engineer(answers);
                     inquirer
-                        .prompt({type:"input",
-                                 message: "What is the engineer's Github username?",
-                                 name: "github"
-                        })
-                        .then(function(answer){
-                            addEngineer.getGithub(answer.github)
-                        })
-                    addEngineer.role='Engineer';
+                    .prompt({type:"input",
+                    message: "What is the engineer's Github username?",
+                    name: "github"
+                })
+                .then(function(answer){
+                    const addEngineer=new Engineer(answers.name,answers.id,answers.email,answer.github);
+                    addEngineer.role=answers.role;
                     team.push(addEngineer);
+                    ask();
+                })
+                
                 break;
-            
+                
                 case "Intern":
-                    const addIntern=new Intern(answers);
                     inquirer
-                        .prompt({type:"input",
-                                 message:"What school does the intern attend?",
-                                 name:"school"
-                        })
-                        .then(function(answer){
-                            addIntern.getSchool(answer.school);
-                        })
-                    addIntern.role='Intern';
+                    .prompt({type:"input",
+                    message:"What school does the intern attend?",
+                    name:"school"
+                })
+                .then(function(answer){
+                    const addIntern=new Intern(answers.name,answers.id,answers.email,answer.school);
+                    addIntern.role=answers.role;
                     team.push(addIntern);
+                    ask();  
+                })
+                
                 break;
             }
         })
- ask();
 }
 
 function init(){
@@ -99,7 +106,7 @@ function init(){
     inquirer
         .prompt(mgrQuestions)
         .then(answers=>{
-            const teamMgr=new Manager(answers);
+            const teamMgr =new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
             teamMgr.role='Manager';
             team.push(teamMgr);
             addMember();
@@ -107,6 +114,10 @@ function init(){
 }
 
 init();
+
+function renderFile(){
+    fs.writeFileSync(outputPath, render(team),"utf-8");
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
