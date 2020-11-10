@@ -19,14 +19,12 @@ function ask () {
             type: "input",
             message: "Would like to add a team member?(y/n)",
             name: "add"
-       }).then(answer => {
-         if (answer.add !=='y' || answer.add !=='n'){
-             throw error;
-         }
-         else if(answer.add='y') {
+        })
+       .then(answer => {
+        if(answer.add='y') {
             addMember();
-         }
-         else {render(team)};
+        }
+        else {render(team)};
        })
 }
 
@@ -43,12 +41,10 @@ function addMember() {
                         {type:"input",
                          message: "What is the employee's e-mail address?",
                          name:"email"
-                        }
-
-    ]
+                        }];
     inquirer
         .prompt(empQuestions)
-        then(function(answers){
+        .then(function(answers){
             switch (answers.role) {
                 case "Engineer":
                     const addEngineer=new Engineer(answers);
@@ -60,6 +56,7 @@ function addMember() {
                         .then(function(answer){
                             addEngineer.getGithub(answer.github)
                         })
+                    getRole(answers.role);
                     team.push(addEngineer);
                 break;
             
@@ -73,6 +70,7 @@ function addMember() {
                         .then(function(answer){
                             addIntern.getSchool(answer.school);
                         })
+                    getRole(answers.role);
                     team.push(addIntern);
                 break;
             }
