@@ -56,7 +56,7 @@ function addMember() {
                         .then(function(answer){
                             addEngineer.getGithub(answer.github)
                         })
-                    getRole(answers.role);
+                    addEngineer.role='Engineer';
                     team.push(addEngineer);
                 break;
             
@@ -70,7 +70,7 @@ function addMember() {
                         .then(function(answer){
                             addIntern.getSchool(answer.school);
                         })
-                    getRole(answers.role);
+                    addIntern.role='Intern';
                     team.push(addIntern);
                 break;
             }
@@ -100,9 +100,9 @@ function init(){
         .prompt(mgrQuestions)
         .then(answers=>{
             const teamMgr=new Manager(answers);
-            teamMgr.getRole();
+            teamMgr.role='Manager';
             team.push(teamMgr);
-            ask();
+            addMember();
         })
 }
 
